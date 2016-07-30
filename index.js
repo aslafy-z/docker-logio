@@ -33,15 +33,15 @@ var opts = {
   events: ee
 };
 loghose(opts).pipe(through.obj(function(chunk, enc, cb){
-  this.push('+log|'+chunk.image+'|'+program.name+':'+chunk.id+'|info|'+chunk.line+'\r\n');
+  this.push('+log|'+chunk.image+'|'+chunk.name+'|info|'+chunk.line+'\r\n');
   cb();
 })).pipe(s);
 
 ee.on('start', function(meta, container) {
-  var id = meta.id.substring(0, 12);
-  s.write('+node|'+program.name+':'+id+'|'+meta.image+'\r\n');
+  var name = meta.name.split('_')[1];
+  s.write('+node|'+name+'|'+meta.image+'\r\n');
 });
 ee.on('stop', function(meta, container) {
-  var id = meta.id.substring(0, 12);
-  s.write('-node|'+program.name+':'+id+'\r\n');
+  var name = meta.name.split('_')[1];
+  s.write('-node|'+name+'\r\n');
 });
