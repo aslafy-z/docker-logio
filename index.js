@@ -33,7 +33,8 @@ var opts = {
   events: ee
 };
 loghose(opts).pipe(through.obj(function(chunk, enc, cb){
-  this.push('+log|'+chunk.image+'|'+chunk.name+'|info|'+chunk.line+'\r\n');
+  var name = chunk.name.split('_')[1];
+  this.push('+log|'+chunk.image+'|'+name+'|info|'+chunk.line+'\r\n');
   cb();
 })).pipe(s);
 
